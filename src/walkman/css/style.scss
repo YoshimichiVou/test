@@ -1,0 +1,313 @@
+@import '../../assets/css/_utils/**/*';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;900&display=swap');
+
+$gradient_val: linear-gradient(to right top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%);
+
+// X軸の関数
+@function getPointX($t, $x1, $x2, $x3, $x4) {
+  $tp: 1 - $t;
+  $x: $tp * $tp * $tp * $x1 + 3 * $tp * $tp * $t * $x2 + 3 * $tp * $t * $t * $x3 + $t * $t * $t * $x4;
+
+  @return $x + px;
+}
+
+// Y軸の関数
+@function getPointY($t, $y1, $y2, $y3, $y4) {
+  $tp: 1 - $t;
+  $y: $tp * $tp * $tp * $y1 + 3 * $tp * $tp * $t * $y2 + 3 * $tp * $t * $t * $y3 + $t * $t * $t * $y4;
+
+  @return $y + px;
+}
+
+@keyframes createBezier-1 {
+  $startX: 0; // 開始位置X
+  $startY: 0; // 開始位置Y
+	$p1X: 150; // 制御点X1
+  $p1Y: -300; // 制御点Y1
+	$p2X: 300; // 制御点X2
+	$p2Y: 0; // 制御点Y2
+	$endX: 300; // 終了位置X
+	$endY: 0; // 終了位置Y
+
+  @for $i from 0 through 100 {
+    #{$i/2}% {
+    transform: translate(getPointX($i * 0.01, $startX, $p1X, $p2X, $endX), getPointY($i * 0.01, $startY, $p1Y, $p2Y, $endY));
+    }
+  }
+}
+
+@keyframes bodyMotion {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes footMotion {
+  0% {
+    transform: rotate(0);
+  }
+  10% {
+    transform: rotate(30deg);
+  }
+  38% {
+    transform: rotate(-20deg);
+  }
+  45% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes footColorMotion {
+  0% {
+    transform: rotate(0);
+  }
+  10% {
+    transform: rotate(-30deg);
+  }
+  38% {
+    transform: rotate(20deg);
+  }
+  45% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes headMotion {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20%) rotate(20deg);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes handMotion {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+#container {
+  position: relative;
+  width :100vw;
+  height :100vh;
+  background: $gradient_val;
+  overflow: hidden;
+}
+
+.walkman {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  // transform: translate(-200%,-60%) scale(0.9);
+  transform:  translate(calc(-50% - 150px),-58%) scale(5);
+  width: 400px;
+  height: 700px;
+  opacity: 0;
+  transition: 3s;
+  filter: blur(50px);
+  &.is-active {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(calc(-50% - 150px),-58%) scale(0.9);
+  }
+}
+
+.start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: #fff;
+  font-size: 3vw;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  opacity: 0.3;
+  cursor: pointer;
+  z-index: 100;
+  filter: blur(0);
+  transition: 0.5s;
+  &.is-hide {
+    filter: blur(10px);
+    pointer-events: none;
+    opacity: 0;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.replay {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #fff;
+  font-size: 1.5vw;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.3em;
+  opacity: 0;
+  transition: 0.5s;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 100;
+  pointer-events: none;
+  &.is-active {
+    opacity: 0.3;
+    pointer-events: auto;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+}
+
+.body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-15%, -55%);
+  &__obj {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: $gradient_val;
+    animation-name: bodyMotion;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+  }
+
+  &__head {
+    position: absolute;
+    top: -12%;
+    left: 93%;
+    width: 25%;
+    height: 25%;
+    border-radius: 50%;
+    background: $gradient_val;
+    animation-name: headMotion;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+  }
+
+  &__hand {
+    position: absolute;
+    top: calc(50% - 125px);
+    left: calc(50% - 63px);
+    width: 200px;
+    height: 380px;
+    border-radius: 50% 50% 50% 50%;
+    background: $gradient_val;
+    animation-name: handMotion;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+  }
+
+  &__eye {
+    position: absolute;
+    top: 30%;
+    left: 67%;
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+    background: $gradient_val;
+  }
+}
+
+.foot {
+	position: absolute;
+	display: block;
+  width: 200px;
+  height: 200px;
+  bottom: 140px;
+  left: 16%;
+  transform: translateX(-50%);
+  z-index: -1;
+  &__part {
+    transform: translate(0px, 0px);
+    position: absolute;
+    top: 100%;
+    left: 50px;
+    width: 0;
+    height: 0;
+    animation-name: createBezier-1;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+}
+
+.footObj {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 200px;
+  height: 250px;
+  transform-origin: left center;
+  animation-name: footMotion;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  &:after {
+    @include pseudo(120px,30px);
+    background: $gradient_val;
+    border-radius: 0 20px 0 0;
+    left: 39%;
+    bottom: 0%;
+    transform-origin: bottom left;
+    z-index:-1;
+  }
+  &__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 60% 40% 60% 40%;
+    z-index: 1;
+  }
+  &__bg {
+    @include pseudo(120%,120%);
+    top: 0;
+    left: 0;
+    background: $gradient_val;
+    animation-name: footColorMotion;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transform-origin: center center;
+  }
+}
+
+.shadow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+
+}
