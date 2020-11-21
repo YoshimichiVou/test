@@ -11,7 +11,6 @@ gulpset.confs.browsersync = {
     middleware: []
   },
   startPath: '/',
-  open: 'external',
   ghostMode: false
 };
 

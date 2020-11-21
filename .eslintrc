@@ -1,10 +1,4 @@
 {
   "root": true,
-  "extends": ["@fourdigit/eslint-config-fourdigit/esnext"],
-  "env": {
-    "jquery": true
-  },
-  "rules": {
-    "no-magic-numbers": ["off"]
-  }
+  "extends": ["@fourdigit/eslint-config-fourdigit/esnext"]
 }

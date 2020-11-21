@@ -1,0 +1,8 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "workbench.colorCustomizations": {
+    "editor.background": "#111",
+  },
+  "liveServer.settings.port": 5501
+}

@@ -6,8 +6,8 @@
   "author": "FOURDIGIT Inc., Nobuyuki NISHIGAKI",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
     "@fourdigit/eslint-config-fourdigit": "^1.0.4",
     "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.4",
@@ -57,28 +57,21 @@
     "webpack-stream": "^5.1.1"
   },
   "dependencies": {
-    "@fourdigit/sanitize-4d.css": "^7.0.4",
+    "@fourdigit/sanitize-4d.css": "^8.0.0",
     "@fourdigit/scss-utilities": "^1.0.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-dollar-sign": "^1.0.2",
-    "eslint-plugin-prettier": "^3.1.1",
-    "gsap": "^3.0.1",
-    "gulp-babel": "^8.0.0",
-    "md5": "^2.2.1",
-    "micromodal": "^0.4.2",
-    "object-fit-images": "^3.2.4",
-    "scrollama": "^2.1.3",
-    "swiper": "^5.2.1",
-    "ua-parser-js": "^0.7.20"
+    "curtainsjs": "^7.3.2",
+    "draggable": "^4.2.0",
+    "gsap": "^3.5.1",
+    "swiper": "^6.3.5"
   },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "start": "gulp",
-    "build": "gulp production"
+    "build:prod": "gulp production",
+    "eslint:fix": "yarn eslint --fix",
+    "deployrsync": "gulp deployrsync"
   },
   "repository": {
     "type": "git",

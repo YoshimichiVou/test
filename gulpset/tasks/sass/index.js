@@ -4,16 +4,18 @@ const gulpset = require('./../../gulpset');
 gulpset.gulp.task('sass', cb => gulpset.tasks.sass(cb, false));
 
 // @verbose
-gulpset.gulp.task('sass-nomap', cb => gulpset.tasks.sass(cb, true));
+gulpset.gulp.task('sass-minify', cb => gulpset.tasks.sass(cb, true));
 
-gulpset.confs.sass = [{
-  src: gulpset.paths.src + '**/!(_)*.scss',
-  dest: gulpset.paths.dest
-  // spritesheet: {
-  //   stylesheetPath: gulpset.paths.dest + 'assets/css/',
-  //   spritePath: gulpset.paths.dest + 'assets/imgs/spritesheets/'
-  // }
-}];
+gulpset.confs.sass = [
+  {
+    src: gulpset.paths.src + '**/!(_)*.scss',
+    dest: gulpset.paths.dest
+    // spritesheet: {
+    //   stylesheetPath: gulpset.paths.dest + 'assets/css/',
+    //   spritePath: gulpset.paths.dest + 'assets/imgs/spritesheets/'
+    // }
+  }
+];
 
 //----------------------------------------------------------------------------------------------------
 ///
@@ -30,12 +32,13 @@ const sourcemaps = require('gulp-sourcemaps');
 const _ = require('lodash');
 const packageImporter = require('node-sass-package-importer');
 
-gulpset.tasks.sass = (cb, noMap, browsers, conf) => {
-  noMap = noMap === true;
+gulpset.tasks.sass = (cb, doMinify, browsers, conf) => {
+  doMinify = doMinify === true;
   conf = conf || gulpset.confs.sass || {};
   if (!Array.isArray(conf)) conf = [conf];
 
   const options = {
+    outputStyle: doMinify ? 'compressed' : 'expanded',
     importer: packageImporter({
       extensions: ['.scss', '.css']
     })
@@ -45,7 +48,8 @@ gulpset.tasks.sass = (cb, noMap, browsers, conf) => {
     const processors = [autoprefixer()];
 
     if (entry.spritesheet) {
-      entry.spritesheet = _.merge({
+      entry.spritesheet = _.merge(
+        {
           stylesheetPath: null,
           spritePath: null,
           retina: true,
@@ -60,17 +64,15 @@ gulpset.tasks.sass = (cb, noMap, browsers, conf) => {
     }
 
     return gulp
-      .src(entry.src, `!${gulpset.paths.src}assets/css/vendor/**/*`)
+      .src(entry.src)
       .pipe(plumber())
       .pipe(sassGlob())
-      .pipe(gulpif(!noMap, sourcemaps.init()))
+      .pipe(gulpif(!doMinify, sourcemaps.init()))
       .pipe(sass(options).on('error', sass.logError))
       .pipe(postcss(processors))
-      .pipe(gulpif(!noMap, sourcemaps.write('./')))
+      .pipe(gulpif(!doMinify, sourcemaps.write('./')))
       .pipe(gulp.dest(entry.dest))
-      .pipe(gulpset.stream({
-        match: '**/*.css'
-      }));
+      .pipe(gulpset.stream({ match: '**/*.css' }));
   });
 
   es.merge(streams).on('end', () => {

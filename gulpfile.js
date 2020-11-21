@@ -4,26 +4,25 @@ gulpset.gulp.task(
   'default',
   gulpset.gulp.series(
     'clean',
-    gulpset.gulp.parallel('copy', 'eslint', 'sass-nomap', 'scripts', 'ejs'),
+    gulpset.gulp.parallel('copy', 'stylelint', 'eslint', 'imagemin', 'sass', 'scripts', 'ejs', 'styleguide'),
     'watch',
     'browsersync'
   )
 );
 
-// gulpset.gulp.task(
-//   'default',
-//   gulpset.gulp.series(
-//     'clean',
-//     gulpset.gulp.parallel('copy', 'eslint', 'imagemin', 'sass', 'scripts', 'ejs'),
-//     'watch',
-//     'browsersync'
-//   )
-// );
-
 gulpset.gulp.task(
   'production',
   gulpset.gulp.series(
     'clean',
-    gulpset.gulp.parallel('copy', 'eslint', 'sass-nomap', 'scripts', 'ejs')
+    gulpset.gulp.parallel(
+      'copy',
+      'stylelint',
+      'eslint',
+      'imagemin',
+      'sass-minify',
+      'scripts-minify',
+      'ejs',
+      'styleguide'
+    )
   )
 );

@@ -1,7 +1,6 @@
 const gulpset = require('./../../gulpset');
 
-gulpset.confs.watch = [
-  {
+gulpset.confs.watch = [{
     watch: [gulpset.paths.src + '**/*.ejs'],
     run: ['ejs']
   },
@@ -20,7 +19,7 @@ gulpset.confs.watch = [
   {
     watch: [
       gulpset.paths.src +
-        '**/*.{html,htm,js,css,ico,json,xml,woff,woff2,ttf,eot,mp4,webm,jpeg,jpg,gif,png,svg,map,mp3,pdf}'
+      '**/*.{html,htm,js,css,ico,json,xml,woff,woff2,ttf,eot,mp4,webm,jpeg,jpg,gif,png,svg,map,mp3,pdf}'
     ],
     run: ['copy']
   }

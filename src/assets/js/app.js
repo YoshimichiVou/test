@@ -1,125 +1,224 @@
-(function ($) {
-  var config = function config() {
+import {
+  Curtains,
+  Plane,
+  Vec2
+} from 'curtainsjs';
+import _MatchMedia from './vender/_matchMedia';
+import _UA from './vender/_ua';
 
-    var _ua = Fourdigit.set()._ua,
-      _browser = Fourdigit.set()._browser,
-      _breakP = Fourdigit.set()._breakP,
-      _winSize = Fourdigit.set()._winSize; // ブラウザを判別し、bodyにそのブラウザ名のクラスを付与
+window.addEventListener("load", () => {
+  // track the mouse positions to send it to the shaders
+  const mousePosition = new Vec2();
+  // we will keep track of the last position in order to calculate the movement strength/delta
+  const mouseLastPosition = new Vec2();
+
+  const deltas = {
+    max: 0,
+    applied: 0,
+  };
+
+  // set up our WebGL context and append the canvas to our wrapper
+  const curtains = new Curtains({
+    container: "canvas",
+    watchScroll: false, // no need to listen for the scroll in this example
+    pixelRatio: Math.min(1.5, window.devicePixelRatio) // limit pixel ratio for performance
+  });
+
+  // handling errors
+  curtains.onError(() => {
+    // we will add a class to the document body to display original images
+    document.body.classList.add("no-curtains");
+  }).onContextLost(() => {
+    // on context lost, try to restore the context
+    curtains.restoreContext();
+  });
+
+  // get our plane element
+  const planeElements = document.getElementsByClassName("curtain");
 
 
-    for (var key in _browser) {
-      if (_browser.hasOwnProperty(key)) {
-        if (_browser[key] == true) {
-          $('body').addClass(key);
+  const vs = `
+        precision mediump float;
+
+        // default mandatory variables
+        attribute vec3 aVertexPosition;
+        attribute vec2 aTextureCoord;
+
+        uniform mat4 uMVMatrix;
+        uniform mat4 uPMatrix;
+
+        // our texture matrix uniform
+        uniform mat4 simplePlaneTextureMatrix;
+
+        // custom variables
+        varying vec3 vVertexPosition;
+        varying vec2 vTextureCoord;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform vec2 uMousePosition;
+        uniform float uMouseMoveStrength;
+
+
+        void main() {
+
+            vec3 vertexPosition = aVertexPosition;
+
+            // get the distance between our vertex and the mouse position
+            float distanceFromMouse = distance(uMousePosition, vec2(vertexPosition.x, vertexPosition.y));
+
+            // calculate our wave effect
+            float waveSinusoid = cos(5.0 * (distanceFromMouse - (uTime / 75.0)));
+
+            // attenuate the effect based on mouse distance
+            float distanceStrength = (0.4 / (distanceFromMouse + 0.4));
+
+            // calculate our distortion effect
+            float distortionEffect = distanceStrength * waveSinusoid * uMouseMoveStrength;
+
+            // apply it to our vertex position
+            vertexPosition.z +=  distortionEffect / 30.0;
+            vertexPosition.x +=  (distortionEffect / 30.0 * (uResolution.x / uResolution.y) * (uMousePosition.x - vertexPosition.x));
+            vertexPosition.y +=  distortionEffect / 30.0 * (uMousePosition.y - vertexPosition.y);
+
+            gl_Position = uPMatrix * uMVMatrix * vec4(vertexPosition, 1.0);
+
+            // varyings
+            vTextureCoord = (simplePlaneTextureMatrix * vec4(aTextureCoord, 0.0, 1.0)).xy;
+            vVertexPosition = vertexPosition;
         }
+    `;
+
+  const fs = `
+        precision mediump float;
+
+        varying vec3 vVertexPosition;
+        varying vec2 vTextureCoord;
+
+        uniform sampler2D simplePlaneTexture;
+
+        void main() {
+            // apply our texture
+            vec4 finalColor = texture2D(simplePlaneTexture, vTextureCoord);
+
+            // fake shadows based on vertex position along Z axis
+            finalColor.rgb -= clamp(-vVertexPosition.z, 0.0, 1.0);
+            // fake lights based on vertex position along Z axis
+            finalColor.rgb += clamp(vVertexPosition.z, 0.0, 1.0);
+
+            // handling premultiplied alpha (useful if we were using a png with transparency)
+            finalColor = vec4(finalColor.rgb * finalColor.a, finalColor.a);
+
+            gl_FragColor = finalColor;
+        }
+    `;
+
+  // some basic parameters
+  const params = {
+    vertexShader: vs,
+    fragmentShader: fs,
+    widthSegments: 20,
+    heightSegments: 20,
+    uniforms: {
+      resolution: { // resolution of our plane
+        name: "uResolution",
+        type: "2f", // notice this is an length 2 array of floats
+        value: [planeElements[0].clientWidth, planeElements[0].clientHeight],
+      },
+      time: { // time uniform that will be updated at each draw call
+        name: "uTime",
+        type: "1f",
+        value: 0,
+      },
+      mousePosition: { // our mouse position
+        name: "uMousePosition",
+        type: "2f", // again an array of floats
+        value: mousePosition,
+      },
+      mouseMoveStrength: { // the mouse move strength
+        name: "uMouseMoveStrength",
+        type: "1f",
+        value: 0,
       }
     }
   };
 
-  $(function () {
+  // create our plane
+  const simplePlane = new Plane(curtains, planeElements[0], params);
 
-    let walkman = $('.js-walkman');
-    let bodyObj = $('.js-body');
-    let headObj = $('.js-head');
-    let foot = $('.js-foot');
-    let footDelay = $('.js-foot').eq(1);
-    let footObj = $('.footObj');
-    let footObjDelay = $('.js-foot').eq(1).find('.footObj');
-    let footBg = $('.js-footBg');
-    let footBgDelay = $('.js-foot').eq(1).find('.js-footBg');
-    let kick = "../assets/audio/kick.mp3";
-    let song = "../assets/audio/audio.mp3";
-    var kickPlayer = new Audio(kick);
-    var songPlayer = new Audio(song);
-    var testTimer;
+  // if there has been an error during init, simplePlane will be null
+  simplePlane.onReady(() => {
+    // set a fov of 35 to reduce perspective (we could have used the fov init parameter)
+    simplePlane.setPerspective(35);
 
-    kickPlayer.volume = 1;
-    songPlayer.volume = 0.2;
+    // apply a little effect once everything is ready
+    deltas.max = 2;
 
-    function metronome(tempo, beat) {
+    // now that our plane is ready we can listen to mouse move event
+    const wrapper = document.getElementById("page-wrap");
 
-      let animeTime = Math.floor(60 / tempo * 1000);
-      let longAnimeTime = animeTime * 2;
+    wrapper.addEventListener("mousemove", (e) => {
+      handleMovement(e, simplePlane);
+    });
 
+    wrapper.addEventListener("touchmove", (e) => {
+      handleMovement(e, simplePlane);
+    }, {
+      passive: true
+    });
 
+  }).onRender(() => {
+    // increment our time uniform
+    simplePlane.uniforms.time.value++;
 
-      var promise1 = new Promise(function(resolve, reject) {
-        setTimeout(() => {
+    // decrease both deltas by damping : if the user doesn't move the mouse, effect will fade away
+    deltas.applied += (deltas.max - deltas.applied) * 0.02;
+    deltas.max += (0 - deltas.max) * 0.01;
 
-          bodyObj.css('animation-duration', '' + animeTime + 'ms');
-        headObj.css('animation-duration', '' + animeTime + 'ms');
+    // send the new mouse move strength value
+    simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
 
-        footObj.css('animation-duration', '' + longAnimeTime + 'ms');
-        footObjDelay.css('animation-delay', '' + animeTime + 'ms');
+  }).onAfterResize(() => {
+    const planeBoundingRect = simplePlane.getBoundingRect();
+    simplePlane.uniforms.resolution.value = [planeBoundingRect.width, planeBoundingRect.height];
+  }).onError(() => {
+    // we will add a class to the document body to display original images
+    document.body.classList.add("no-curtains");
+  });
 
-        footBg.css('animation-duration', '' + longAnimeTime + 'ms');
-        footBgDelay.css('animation-delay', '' + animeTime + 'ms');
+  // handle the mouse move event
+  function handleMovement(e, plane) {
+    // update mouse last pos
+    mouseLastPosition.copy(mousePosition);
 
-        walkman.addClass('is-active');
-          foot.css('animation-duration', '' + longAnimeTime + 'ms');
-          footDelay.css('animation-delay', '' + animeTime + 'ms');
-        }, 0);
-      });
+    const mouse = new Vec2();
 
-      var promise2 = new Promise(function(resolve, reject) {
-        setTimeout(() => {
-          testTimer = setInterval(function () {
-            kickPlayer.play();
-          }, animeTime);
-          songPlayer.play();
-          songPlayer.loop = true;
-        }, animeTime / 2);
-});
-
-
-
-
-
-      console.log(animeTime / 2)
+    // touch event
+    if (e.targetTouches) {
+      mouse.set(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+    }
+    // mouse event
+    else {
+      mouse.set(e.clientX, e.clientY);
     }
 
-    $('.start').on('click', function () {
-      var speed = prompt("BPM60~120くらいのテンポ感で歩きたいそうです。70~90くらいだと丁度良いそうです。");
-      $('.replay').addClass('is-active');
+    // lerp the mouse position a bit to smoothen the overall effect
+    mousePosition.set(
+      curtains.lerp(mousePosition.x, mouse.x, 0.3),
+      curtains.lerp(mousePosition.y, mouse.y, 0.3)
+    );
 
-      if (speed == "" || speed == null) {
-        alert('あなたにテンポを決めてくれないと歩けないそうです。');
-      } else if (speed <= 120 && speed >= 60) {
-        metronome(speed, 4);
-        $(this).addClass('is-hide');
-      } else if (speed > 120) {
-        alert('速すぎだそうです。');
-      } else if (speed < 60) {
-        alert('遅すぎて逆に疲れるそうです。');
-      } else {
-        alert('うまく入力できてないみたいです。（数値が全角になってるとか？）');
+    // convert our mouse/touch position to coordinates relative to the vertices of the plane and update our uniform
+    plane.uniforms.mousePosition.value = plane.mouseToPlaneCoords(mousePosition);
+
+    // calculate the mouse move strength
+    if (mouseLastPosition.x && mouseLastPosition.y) {
+      let delta = Math.sqrt(Math.pow(mousePosition.x - mouseLastPosition.x, 2) + Math.pow(mousePosition.y - mouseLastPosition.y, 2)) / 30;
+      delta = Math.min(4, delta);
+      // update max delta only if it increased
+      if (delta >= deltas.max) {
+        deltas.max = delta;
       }
-    });
-    $('.replay').on('click', function () {
-      $('.start').removeClass('is-hide');
-      $('.js-walkman').removeClass('is-active');
-      $(this).removeClass('is-active');
-      songPlayer.pause(0);
-      kickPlayer.pause(0);
-      songPlayer.currentTime = 0;
-      clearInterval(testTimer);
-    });
-
-  });
-
-  var agent = window.navigator.userAgent.toLowerCase();
-  var ipad = agent.indexOf('ipad') > -1 || agent.indexOf('macintosh') > -1 && 'ontouchend' in document;
-  $(function () {
-    switch ($('.wrapper').attr('id')) {
-      case 'template':
-
-        break;
-
-      case 'walkman':
-        break;
-
-      default:
-        break;
     }
-  });
-})(jQuery);
+  }
+});
