@@ -1,56 +1,62 @@
 <%
 include('/_utils');
-// このブロックでは、このコンポーネントのdefault valueを設定します。
-// include('/_head', {title: 'xxxxx'}) のような形でオプションを渡した時には、それが利用され、
-// 渡されていない時には下記のデフォルト値が使われます。
-/*
-例）
-titleに "default title" というデフォルト値が設定されていた場合、
-include('/_head', {title: 'aaa'}) => 'aaa'
-include('/_head', {title: ''}) => ''
-include('/_head', {title: null}) => null
-include('/_head', {}) => 'default title'
-include('/_head', {title: undefined}) => 'default title'
-*/
 
 const params = ejsUtils.defaultParamsMapper(locals, {
-  title: '共通タイトル',
-  description: '共通description',
-  keywords: '共通,keyword',
-  // url: 'http://domain.com/',
-  // ogImg: 'http://domain.com/ogp.png',
-  ogType: 'article',
-  originalCss: '',
-})
+  layer: null,
+  title: null,
+  dirname: true,
+  un_id: null,
+  un_canonical: null
+});
+
+const common = {
+  title: '{TITLE}',
+  description: '{DISCRIPTION}',
+  keywords: '{KEYWORDS}',
+  canonical: '{CANONICAL}',
+};
 %>
 
-<!DOCTYPE html>
-<html lang="ja">
+<!doctype html>
+<html>
 
 <head>
-  <!-- meta -->
-  <meta name="viewport" content="width=device-width, user-scalable=no" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta charset="UTF-8" />
-  <meta name="format-detection" content="telephone=no" />
-
-  <!-- links -->
-  <link rel="manifest" href="./manifest.json">
-
-  <!-- title, description -->
-  <title><%- params.title %></title>
-  <meta name="description" content="<%- params.description %>">
-  <meta name="keywords" content="<%- params.keywords %>">
-  <link rel="canonical" href="<%- params.url %>">
-  <meta property="og:title" content="<%- params.title %>" />
-  <meta property="og:type" content="<%- params.ogType %>" />
-  <meta property="og:url" content="<%- params.url %>" />
-  <meta property="og:image" content="<%- params.ogImg %>" />
-  <meta property="og:description" content="<%- params.description %>" />
-
-  <!-- assets -->
-  <link rel="stylesheet" href="/assets/css/app.css" />
-  <link rel="stylesheet" href="/assets/css/<%- params.originalCss %>.css" />
+  <!-- meta start -->
+  <meta charset="utf-8">
+  <% if (params.title) { %>
+  <title><%- params.title %>｜<%- common.title %> </title>
+  <% } else { %>
+  <title><%- common.title %></title>
+  <% } %>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="<%- params.title %>｜<%- common.description %>">
+  <meta name="keywords" content="<%- params.title %>,<%- common.keywords %>">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="<%- common.title %>">
+  <meta property="og:url" content="<%- common.canonical %>">
+  <meta property="og:image" content="https://www.proud-web.jp/image_files/estate_basics/dtop/<%- common.number %>.jpg">
+  <meta property="og:description" content="<%- common.description %>">
+  <meta property="og:site_name" content="">
+  <% if (params.un_canonical === "") { %>
+  <link rel="canonical" href="<%- common.canonical %>">
+  <% } else { %>
+  <link rel="canonical" href="<%- common.canonical %><%- params.un_canonical %>">
+  <% } %>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- meta end -->
+  <!-- CSS start -->
+  <link href="<%- params.layer %>assets/css/global.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="stylesheet" type="text/css" href="<%- params.layer %>assets/js/vendor/aos/aos.css" />
+  <link rel="stylesheet" type="text/css" href="<%- params.layer %>assets/js/vendor/swiper/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="<%- params.layer %>assets/css/common.css">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <!-- CSS end -->
 </head>
 
-<body>
+<body class="l-property-temp">
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- tmpl-header -->
+  <script type="text/javascript" src="<%- params.layer %>assets/inc/topicHeaderPackage.js" charset="UTF-8" id="thpJS"></script>
+  <!-- / tmpl-header -->
+  <div id="container">

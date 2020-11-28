@@ -11,6 +11,7 @@ gulpset.confs.browsersync = {
     middleware: []
   },
   startPath: '/',
+  open: 'external',
   ghostMode: false
 };
 
@@ -31,14 +32,11 @@ gulpset.tasks.browsersync = (cb, conf) => {
   gulpset.stream = opt => {
     opt = opt || null;
     const queue = gutil.noop();
-    gulpset.syncs.forEach(bs => {
-      queue.pipe(bs.stream(opt));
-    });
-    return queue;
+    return queue.pipe(gulpset.syncs[0].stream(opt));
   };
 
-  gulpset.reload = function() {
-    gulpset.syncs.forEach(function(bs) {
+  gulpset.reload = function () {
+    gulpset.syncs.forEach(function (bs) {
       bs.reload();
     });
   };

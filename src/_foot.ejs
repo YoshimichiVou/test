@@ -1,21 +1,37 @@
 <%
 include('/_utils');
-// このブロックでは、このコンポーネントのdefault valueを設定します。
-// include('/_head', {title: 'xxxxx'}) のような形でオプションを渡した時には、それが利用され、
-// 渡されていない時には下記のデフォルト値が使われます。
-/*
-例）
-titleに "default title" というデフォルト値が設定されていた場合、
-include('/_head', {title: 'aaa'}) => 'aaa'
-include('/_head', {title: ''}) => ''
-include('/_head', {title: null}) => null
-include('/_head', {}) => 'default title'
-include('/_head', {title: undefined}) => 'default title'
-*/
 
-const params = ejsUtils.defaultParamsMapper(locals, {})%>
-<script src="/assets/js/app.js"></script>
+const params = ejsUtils.defaultParamsMapper(locals, {
+  layer: null,
+  title: null,
+  dirname: null,
+  un_id: null,
+  un_canonical: null
+});
+%>
 
-</body>
+    </div><!-- / #container -->
 
+  <!-- topicCVPackage -->
+  <script type="text/javascript" src="<%- params.layer %>assets/inc/topicCVPackage.js" charset="UTF-8" id="thpJS"></script>
+  <!-- / topicCVPackage -->
+
+  <!-- topicFooterPackage -->
+  <script type="text/javascript" src="<%- params.layer %>assets/inc/topicFooterPackage.js" charset="UTF-8" id="thpJS"></script>
+  <!-- / topicFooterPackage -->
+
+  <!-- JS start -->
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/jquery.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/aos/aos.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/rellax/rellax.min.js"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/swiper/swiper.min.js"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/common/util.js" id="utilJS" charset="UTF-8"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/intersection-observer.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/vendor/babel-polyfill/dist/polyfill.min.js?features=IntersectionObserver" charset="UTF-8"></script>
+  <script type="text/javascript" src="<%- params.layer %>assets/js/app.js" id="commonJS" charset="UTF-8"></script>
+  <!-- JS end -->
+
+  </div>
+  <!-- /wrapper -->
+  </body>
 </html>

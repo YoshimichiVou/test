@@ -1,0 +1,49 @@
+/*----------------------------------------------------------------------
+オリジナルクラス
+----------------------------------------------------------------------*/
+
+// カラースタイルの変更
+
+[data-color="shadow"] {
+  color: $COLOR_WHITE;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7),
+    0 0 3px rgba(0, 0, 0, 0.7),
+    0 0 3px rgba(0, 0, 0, 0.7),
+    0 0 3px rgba(0, 0, 0, 0.7),
+    0 0 3px rgba(0, 0, 0, 0.7),
+}
+
+[data-color="white"] {
+  color: $COLOR_WHITE;
+}
+
+[data-color="dark"] {
+  color: #666666;
+}
+
+[data-color="blue"] {
+  color: #4d88aa;
+}
+
+
+// text-align
+
+[data-align="center"] {
+  text-align: center;
+}
+
+[data-align="pc-center"] {
+  @include pc {
+    text-align: center;
+  }
+}
+
+[data-align="sp-center"] {
+  @include sp {
+    text-align: center;
+  }
+}
+
+[data-align="right"] {
+  text-align: right;
+}

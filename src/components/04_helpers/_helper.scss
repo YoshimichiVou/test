@@ -1,0 +1,39 @@
+/*----------------------------------------------------------------------
+ヘルパークラス
+----------------------------------------------------------------------*/
+
+.spOnly {
+  @include pc {
+    display: none;
+  }
+}
+
+.pcOnly {
+  @include sp {
+    display: none;
+  }
+}
+
+@for $i from 1 through 40 {
+  .spMt#{$i*5} {
+    @include sp {
+      margin-top:#{$i*5}px;
+      margin-top: calc((#{$i*5} / 375) * 100vw);
+      ;
+    }
+  }
+}
+
+@for $i from 1 through 40 {
+  .pcMt#{$i*5} {
+    @include pc {
+      margin-top:#{$i*5}px;
+    }
+  }
+}
+
+.pcWhiteSpaceNoWrap {
+  @include pc {
+    white-space: nowrap;
+  }
+}

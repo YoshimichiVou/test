@@ -1,0 +1,229 @@
+<% const params = {
+  layer: '../',
+  title: 'テンプレート',
+  dirname: true,
+  un_class: 'un-template',
+  un_id: 'template',
+  un_canonical: 'template/'
+}; %>
+
+<%- include('/_head', { layer: params.layer, title: params.title, dirname: params.dirname, un_class: params.un_class, un_id: params.un_id,un_canonical: params.un_canonical }); %>
+<%- include('/_leaf', { layer: params.layer }); %>
+  <div class="toLowArea js-pageOpen">
+    <div class="toLowArea__bg">
+      <div class="toLowArea__bgImg"></div>
+      <div class="toLowArea__scroll"><img src="../assets/imgs/icon-scroll.png" alt=""></div>
+      <div class="toLowAreaTtl">
+        <p class="toLowAreaTtl__line">
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_01.png" alt="P"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_02.png" alt="r"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_03.png" alt="e"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_04.png" alt="m"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_05.png" alt="i"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_06.png" alt="u"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_07.png" alt="m"></span>
+        </p>
+        <p class="toLowAreaTtl__line">
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_08.png" alt="Wa"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_09.png" alt="l"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_10.png" alt="k"></span>
+          <span class="toLowAreaTtl__img"><img src="./imgs/txt-toLow_11.png" alt=""></span>
+        </p>
+      </div>
+    </div>
+    <div class="toLowArea__mask js-mask">
+      <div class="toLowArea__grad"></div>
+      <div class="toLowArea__white"></div>
+    </div>
+  </div>
+  <!-- /.toLowArea -->
+  <!-- /.wrap -->
+  <div class="blueLayer" data-default_margin="on">
+    <div class="wrap wrap--pcLarge">
+      <div class="ttlCombi" data-default_margin="on">
+        <div class="ttlCombi__ttl headingLv3 headingLv3--border">テキストが入りますテキストが入ります</div>
+        <p class="ttlCombi__txt text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキスト</p>
+      </div>
+      <!-- /.ttlCombi -->
+      <div class="layoutCol layoutCol--two">
+        <div class="layoutCol__item">
+          <div class="decoTtl" data-default_margin="on">テキストが入ります<br class="spOnly"><span class="small">テキストが入ります</span></div>
+          <div class="miniTxtBox">
+            <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+          </div>
+          <div class="layoutCol layoutCol--four pcMt50 spMt40">
+            <div class="layoutCol__item">
+              <figure class="photo">
+                <img src="./imgs/img-dummy-4col.png" alt="">
+                <figcaption class="cap cap--outRight">Image photo</figcaption>
+              </figure>
+            </div>
+            <div class="layoutCol__item">
+              <figure class="photo">
+                <img src="./imgs/img-dummy-4col.png" alt="">
+                <figcaption class="cap cap--outRight">Image photo</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="layoutCol__item">
+            <figure class="photo">
+                <img src="./imgs/img-dummy-2col.png" alt="">
+                <figcaption class="cap cap--outRight">Image photo</figcaption>
+            </figure>
+        </div>
+    </div>
+    </div>
+  </div>
+  <!-- /.wrap -->
+  <div class="wrap pcMt100 spMt60">
+    <div class="headingLv2" data-default_margin="on"><span class="headingLv2__border">テキストが入りますテキストが入ります</span></div>
+    <div class="headingLv3 headingLv3--border">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</div>
+  </div>
+  <div class="wrap wrap--pcLarge">
+    <div class="layoutCol layoutCol--two" data-default_margin="on">
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--outRight">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--outRight">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+    <div class="layoutCol layoutCol--oneThird" data-default_margin="on">
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-3col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-3col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-3col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+    <div class="layoutCol layoutCol--four" data-default_margin="on">
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-4col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-4col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-4col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-4col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border">見出し見出し見出し見出し<br class="pcOnly">見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+    <div class="layoutCol layoutCol--twoLeftLarge layoutCol--cen" data-default_margin="on">
+      <div class="layoutCol__item">
+        <div class="headingLv3 headingLv3--border">見出し見出し見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-3col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+  </div>
+  <!-- /.wrap -->
+  <div class="wrap">
+    <div class="layoutCol layoutCol--miniTwo" data-default_margin="on">
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+        <div class="headingLv4 headingLv4--border" data-align="pc-center">見出し見出し見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+    <div class="layoutCol layoutCol--xMiniTwo layoutCol--cen layoutCol--rev" data-default_margin="on">
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+      </div>
+      <div class="layoutCol__item">
+        <div class="headingLv3 headingLv3--border">見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+    <div class="layoutCol layoutCol--imgBigTwo layoutCol--cen" data-default_margin="on">
+      <div class="layoutCol__item">
+        <div class="headingLv3 headingLv3--border" data-align="pc-center">見出し見出し見出し見出し見出し</div>
+        <p class="text">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります</p>
+      </div>
+      <div class="layoutCol__item">
+        <figure class="photo">
+          <img src="./imgs/img-dummy-2col.png" alt="">
+          <figcaption class="cap cap--inRight" data-color="shadow">Image photo</figcaption>
+        </figure>
+      </div>
+    </div>
+    <!-- /.layoutCol -->
+  </div>
+  <!-- /.wrap -->
+
+<%- include('/_foot', { layer: params.layer, title: params.title, dirname: params.dirname, un_class: params.un_class, un_id: params.un_id,un_canonical: params.un_canonical }); %>

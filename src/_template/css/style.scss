@@ -1,0 +1,233 @@
+@import '../../assets/css/_utils/**/*';
+
+.dummy {
+  width: 100%;
+  height: 1000px;
+}
+
+
+.slideBlock {
+
+  &[data-default_margin="on"] {
+    margin-top: 180px;
+    @include sp {
+      margin-top: calc((200/750)*100vw);
+    }
+  }
+
+  .swiper-button-next:after,
+  .swiper-container-rtl .swiper-button-prev:after,
+  .swiper-button-prev:after,
+  .swiper-container-rtl .swiper-button-next:after {
+    content: none;
+  }
+  .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+    left: 20px;
+  }
+  .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+    right: 20px;
+  }
+
+  .swiper-button-next, .swiper-button-prev {
+    width: 54px;
+    height: 106px;
+    transform: translateY(-50%);
+    top: calc(50% + 5px);
+    @include sp {
+      display: none;
+    }
+  }
+  .swiper-button-next {
+    background-image: url(../../assets/imgs/icon-arrow-right.svg);
+    background-size: cover;
+  }
+  .swiper-button-prev {
+    background-image: url(../../assets/imgs/icon-arrow-left.svg);
+    background-size: cover;
+  }
+
+  .swiper-wrapper {
+    overflow: hidden;
+  }
+
+}
+.slideTab {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  @include sp {
+    justify-content: space-between;
+  }
+  &__item {
+    position: relative;
+    padding: 22px 0 22px 177px;
+    width: 310px;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    border-radius: 15px 15px 0 0;
+    transition: 0.3s;
+    cursor: pointer;
+    @include sp {
+      width: 32%;
+      padding: calc((20/750)*100vw) 0 calc((10/750)*100vw);
+      @include font-sizeVw(10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &:not(:first-child) {
+      @include pc {
+        margin-left: 16px;
+      }
+    }
+    &.is-active,&:hover {
+      transform: translateY(-20px);
+      @include sp {
+        transform: translateY(calc((20/750)*100vw * -1));
+      }
+    }
+    .en {
+      position: absolute;
+      top: 55%;
+      left: 20px;
+      font-family: 'Allura', cursive;
+      letter-spacing: 0;
+      color: #fff;
+      font-size: 38px;
+      line-height: 0.85;
+      transform: translateY(-50%);
+      @include sp {
+        position: relative;
+        top: unset;
+        left: unset;
+        display: block;
+        text-align: center;
+        transform: translateY(0);
+        @include font-sizeVw(24);
+      }
+    }
+    &::before {
+      @include pseudo(100%,21px);
+      top: calc(100% - 1px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &--blue {
+      background: #a0d3c2;
+      &:before {
+        background: #a0d3c2;
+      }
+    }
+    &--yellow {
+      background: #d8e19a;
+      &:before {
+        background: #d8e19a;
+      }
+    }
+    &--purple {
+      background: #dacbe3;
+      &:before {
+        background: #dacbe3;
+      }
+    }
+    &:after {
+      position: absolute;
+      content: ">";
+      width: 6px;
+      height: 10px;
+      font-size: 10px;
+      top: 50%;
+      right: 20px;
+      -webkit-transform: translateY(-50%) scaleY(2.2);
+      transform: translateY(-50%) scaleY(2.2);
+      line-height: 0.9;
+      @include sp {
+        content: none;
+      }
+    }
+  }
+}
+
+.slideArea {
+  position: relative;
+  background-color: #fff;
+  z-index: 1;
+
+  &:after {
+    @include pseudo(100%,5px);
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #7eb2c3 0%, #a0d3c2 30%, #d8e19a 70%, #dacbe3 100%);
+    z-index: 2;
+  }
+
+  .swiper-container {
+    padding: 60px 105px 40px;
+    @include sp {
+      padding: calc((80/750)*100vw) calc((40/750)*100vw) calc((80/750)*100vw);
+    }
+  }
+
+  &__item {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+    &.is-opened {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
+.slideBlockCol {
+  display: flex;
+  background-color: #fff;
+  padding-bottom: 20px;
+  overflow: hidden;
+  @include sp {
+    flex-direction: column;
+  }
+
+
+  &__img {
+    width: 576px;
+    @include sp {
+      width: 100%;;
+    }
+  }
+
+  &__txtArea {
+    position: relative;
+    width: 420px;
+    margin-left: 50px;
+    padding-right: 75px;
+    margin-top: 95px;
+    @include sp {
+      width: 100%;;
+      margin-left: 0;
+      padding-right: 0;
+      margin-top: calc((120/750)*100vw);
+    }
+  }
+
+  &__ttlImg {
+    position: absolute;
+    right: 16px;
+    top: -50px;
+    @include sp {
+      right: 0;
+      top: calc((120/750)*100vw * -1);
+      transform: scale(0.7);
+      transform-origin: right bottom;
+    }
+  }
+}
+
+.miniTxtBox {
+  @include pc {
+    width: 415px;
+  }
+}
