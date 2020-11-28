@@ -52,7 +52,7 @@ function _classCallCheck(instance, Constructor) {
     function updateMetaViewport() {
       var viewportContent;
 
-      if (ipad == true) {
+      if (_ua.TB) {
         viewportContent = "width=1200";
       } else {
         viewportContent = "width=device-width,initial-scale=1.0,maximum-scale=1.5,user-scalable=yes";
@@ -61,7 +61,7 @@ function _classCallCheck(instance, Constructor) {
       document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
     }
 
-    if (_ua.SP || ipad == true) {
+    if (_ua.SP || _ua.TB) {
       window.addEventListener("load", updateMetaViewport, false);
     } //android tel設定
 
@@ -121,6 +121,12 @@ function _classCallCheck(instance, Constructor) {
       observer.observe(box);
     });
 
+
+
+  $(window).on('load',function(){
+    console.log('hello');
+    $('#logo').addClass('start');
+  });
     /**
      * 各ページ固有の処理
      * 基本的にローカルにJSは置かずにcommon内で完結させる。
@@ -139,6 +145,7 @@ function _classCallCheck(instance, Constructor) {
           speed: 1000,
           autoHeight: true,
         });
+
         break;
 
       default:
